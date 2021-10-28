@@ -13,8 +13,8 @@ The jishaku guild-related commands.
 
 import typing
 
-import discord
-from discord.ext import commands
+import disnake as discord
+from disnake.ext import commands
 
 from jishaku.features.baseclass import Feature
 
@@ -89,7 +89,7 @@ class GuildFeature(Feature):
         if member_ids and channel.guild.owner_id in member_ids:
             # Is owner, has all perms
             for key in dict(discord.Permissions.all()).keys():
-                permissions[key] = (True, f"<@{channel.guild.owner_id}> owns the server")
+                permissions[key] = (True, f"{channel.guild.owner.mention} owns the server")
         else:
             # Otherwise, either not a member or not the guild owner, calculate perms manually
             is_administrator = False
@@ -135,18 +135,18 @@ class GuildFeature(Feature):
                 # Denies are applied BEFORE allows, always
                 # Handle denies
                 for overwrite in remaining_overwrites:
-                    if overwrite.is_role() and overwrite.id in role_lookup:
+                    if overwrite.type == 'role' and overwrite.id in role_lookup:
                         self.apply_overwrites(permissions, allow=0, deny=overwrite.deny, name=role_lookup[overwrite.id].name)
 
                 # Handle allows
                 for overwrite in remaining_overwrites:
-                    if overwrite.is_role() and overwrite.id in role_lookup:
+                    if overwrite.type == 'role' and overwrite.id in role_lookup:
                         self.apply_overwrites(permissions, allow=overwrite.allow, deny=0, name=role_lookup[overwrite.id].name)
 
                 if member_ids:
                     # Handle member-specific overwrites
                     for overwrite in remaining_overwrites:
-                        if overwrite.is_member() and overwrite.id in member_ids:
+                        if overwrite.type == 'member' and overwrite.id in member_ids:
                             self.apply_overwrites(permissions, allow=overwrite.allow, deny=overwrite.deny, name=f"{member_ids[overwrite.id].mention}")
                             break
 

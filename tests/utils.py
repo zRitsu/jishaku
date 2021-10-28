@@ -16,7 +16,7 @@ import random
 from unittest import mock
 from unittest.mock import patch
 
-from discord.ext import commands
+from disnake.ext import commands
 
 
 def run_async(func):

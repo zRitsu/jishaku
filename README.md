@@ -60,9 +60,11 @@ You can also import the module to use the command development utilities.
 
 ## Index
 
-* [Command reference](#command-reference)
-* [Installing development versions](#installing-development-versions)
-* [Acknowledgements](#acknowledgements)
+- [Index](#index)
+- [Command reference](#command-reference)
+- [Installing development versions](#installing-development-versions)
+- [Embedded JSK:](#embedded-jsk)
+- [Acknowledgements](#acknowledgements)
 
 ## Command reference
 
@@ -267,6 +269,23 @@ If you run into such a problem, you can force jishaku to be reinstalled like thi
 > ```
 
 You **must** have installed jishaku with one of the commands above before doing this else you will probably end up with a broken installation.
+
+## Embedded JSK:
+```py
+import os
+
+# Setting the jsk command to return an embed
+os.environ['JISHAKU_EMBEDDED_JSK'] = '1'
+
+# Setting the embed's colour
+# Acceptable formats:
+    # 0x<hex>
+    # #<hex>
+    # 0x#<hex>
+    # rgb(<number>, <number>, <number>)
+    # Any of the classmethod in disnake.Colour
+os.environ['JISHAKU_EMBEDDED_JSK_COLOUR'] = 0x2F3136
+```
 
 ## Acknowledgements
 

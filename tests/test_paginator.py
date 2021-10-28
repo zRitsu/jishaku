@@ -13,10 +13,10 @@ import asyncio
 import inspect
 from io import BytesIO
 
-import discord
+import disnake as discord
 import pytest
 import utils
-from discord.ext import commands
+from disnake.ext import commands
 
 from jishaku.paginators import FilePaginator, PaginatorEmbedInterface, PaginatorInterface, WrappedPaginator
 

@@ -14,7 +14,7 @@ This variant overrides behavior using a Feature.
 
 """
 
-from discord.ext import commands
+from disnake.ext import commands
 
 import jishaku
 

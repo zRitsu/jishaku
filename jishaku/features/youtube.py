@@ -11,7 +11,7 @@ The jishaku youtube-dl command.
 
 """
 
-import discord
+import disnake as discord
 import youtube_dl
 from discord.ext import commands
 
@@ -49,6 +49,9 @@ class YouTubeFeature(Feature):
 
         if await VoiceFeature.connected_check(ctx):
             return
+
+        if not youtube_dl:
+            return await ctx.send("youtube_dl is not installed.")
 
         voice = ctx.guild.voice_client
 

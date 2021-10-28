@@ -14,12 +14,13 @@ The jishaku root command.
 import math
 import sys
 import typing
+import os
 
-import discord
-from discord.ext import commands
+import disnake as discord
+from disnake.ext import commands
 
 from jishaku.features.baseclass import Feature
-from jishaku.flags import Flags
+from jishaku.flags import Flags, ENABLED_SYMBOLS
 from jishaku.modules import package_version
 from jishaku.paginators import PaginatorInterface
 
@@ -63,7 +64,9 @@ class RootCommand(Feature):
         """
 
         summary = [
-            f"Jishaku v{package_version('jishaku')}, discord.py `{package_version('discord.py')}`, "
+            f"Jishaku v{package_version('jishaku')}, "
+            f"disnake `{package_version('disnake')}`, "
+
             f"`Python {sys.version}` on `{sys.platform}`".replace("\n", ""),
             f"Module was loaded <t:{self.load_time.timestamp():.0f}:R>, "
             f"cog was loaded <t:{self.start_time.timestamp():.0f}:R>.",
@@ -142,10 +145,21 @@ class RootCommand(Feature):
 
         # pylint: enable=protected-access
 
-        # Show websocket latency in milliseconds
-        summary.append(f"Average websocket latency: {round(self.bot.latency * 1000, 2)}ms")
-
-        await ctx.send("\n".join(summary))
+        _embed = os.getenv('JISHAKU_EMBEDDED_JSK', None)
+        if _embed in ENABLED_SYMBOLS:
+            _color = os.getenv('JISHAKU_EMBEDDED_JSK_COLOR', None) or os.getenv('JISHAKU_EMBEDDED_JSK_COLOUR', None)
+            if _color is not None:
+                try:
+                    color = await commands.ColourConverter().convert(ctx, _color)
+                except commands.errors.BadColourArgument:
+                    color = discord.Colour.default()
+            else:
+                color = discord.Colour.default()
+            
+            await ctx.send(embed=discord.Embed(description="\n".join(summary), color=color).set_author(name='Jishaku', url=ctx.bot.user.display_avatar.url, icon_url=ctx.bot.user.display_avatar.url).set_footer(text=f"Average websocket latency: {round(self.bot.latency * 1000, 2)}ms"))
+        else:
+            summary.append(f"Average websocket latency: {round(self.bot.latency * 1000, 2)}ms")
+            await ctx.send("\n".join(summary))
 
     # pylint: disable=no-member
     @Feature.Command(parent="jsk", name="hide")

@@ -3,12 +3,6 @@
 What's new?
 ================
 
-Version 2.3.1
--------------
-
-This is a patch release to fix a number of issues with permtrace and improve ``__main__``.
-
-
 Version 2.3.0
 -------------
 

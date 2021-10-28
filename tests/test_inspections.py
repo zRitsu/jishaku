@@ -11,7 +11,7 @@ jishaku.inspections test
 
 import collections  # for __iadd__ test
 
-import discord
+import disnake as discord
 import pytest
 from utils import run_async
 
