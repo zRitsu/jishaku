@@ -31,9 +31,9 @@ disnake-jishaku is an extension for bot developers that enables rapid prototypin
 
 One of jishaku's core philosophies is to be dynamic and easy-to-use. Here's the two step install:
 
-> 1. Download jishaku on the command line using pip:
+> 1. Download disnake-jishaku on the command line using pip:
 > ```bash
-> pip install -U jishaku
+> pip install -U disnake-jishaku
 > ```
 > 2. Load the extension in your bot code before it runs:
 > ```python
@@ -228,7 +228,7 @@ You can also import the module to use the command development utilities.
 
 ## Installing development versions
 
-If you'd like to test the latest versions of jishaku, you can do so by downloading from the git hosts instead of from PyPI.
+If you'd like to test the latest versions of disnake-jishaku, you can do so by downloading from the git hosts instead of from PyPI.
 
 > From GitHub:
 > ```bash
@@ -236,7 +236,7 @@ If you'd like to test the latest versions of jishaku, you can do so by downloadi
 > ```
 > From GitLab:
 > ```bash
-> pip install -U "jishaku @ git+https://gitlab.com/Gorialis/jishaku@master"
+> pip install -U "jishaku @ git+https://gitlab.com/Kraots/jishaku@master"
 > ```
 
 Please note that the new 2020 dependency resolver now no longer discounts git package sources from reinstall prevention,
@@ -247,10 +247,6 @@ If you run into such a problem, you can force jishaku to be reinstalled like thi
 > From GitHub:
 > ```bash
 > pip install -U --force-reinstall "jishaku @ git+https://github.com/Kraots/jishaku@master"
-> ```
-> From GitLab:
-> ```bash
-> pip install -U --force-reinstall "jishaku @ git+https://gitlab.com/Gorialis/jishaku@master"
 > ```
 
 You **must** have installed jishaku with one of the commands above before doing this else you will probably end up with a broken installation.
