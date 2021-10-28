@@ -25,10 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import os
 import pathlib
 import re
-import subprocess
 
 from setuptools import setup
 
@@ -53,53 +51,12 @@ REQUIREMENTS = EXTRA_REQUIRES.pop('_')
 if not VERSION:
     raise RuntimeError('version is not set')
 
-
-try:
-    PROCESS = subprocess.Popen(
-        ['git', 'rev-list', '--count', 'HEAD'],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
-
-    COMMIT_COUNT, ERR = PROCESS.communicate()
-
-    if COMMIT_COUNT:
-        PROCESS = subprocess.Popen(
-            ['git', 'rev-parse', '--short', 'HEAD'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-
-        COMMIT_HASH, ERR = PROCESS.communicate()
-
-        if COMMIT_HASH:
-            match = re.match(r'(\d).(\d).(\d)(a|b|rc)?', os.getenv('tag_name') or "")
-
-            if (match and match[4]) or not match:
-                VERSION += ('' if match else 'a') + COMMIT_COUNT.decode('utf-8').strip() + '+g' + COMMIT_HASH.decode('utf-8').strip()
-
-                # Also attempt to retrieve a branch, when applicable
-                PROCESS = subprocess.Popen(
-                    ['git', 'symbolic-ref', '-q', '--short', 'HEAD'],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE
-                )
-
-                COMMIT_BRANCH, ERR = PROCESS.communicate()
-
-                if COMMIT_BRANCH:
-                    VERSION += "." + re.sub('[^a-zA-Z0-9.]', '.', COMMIT_BRANCH.decode('utf-8').strip())
-
-except FileNotFoundError:
-    pass
-
-
 with open(ROOT / 'README.md', 'r', encoding='utf-8') as f:
     README = f.read()
 
 
 setup(
-    name='jishaku',
+    name='disnake-jishaku',
     author='Kraots',
     url='https://github.com/Kraots/jishaku',
 
@@ -123,7 +80,7 @@ setup(
 
     download_url='https://github.com/Kraots/jishaku/archive/{}.tar.gz'.format(VERSION),
 
-    keywords='jishaku disnake discord cog repl extension',
+    keywords='jishaku disnake disnake-jishaku discord cog repl extension',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Framework :: AsyncIO',
