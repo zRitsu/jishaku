@@ -65,7 +65,6 @@ setup(
     long_description=README,
     long_description_content_type='text/markdown',
     project_urls={
-        'Documentation': 'https://disnake-jishaku.readthedocs.io/en/latest/',
         'Code': 'https://github.com/Kraots/jishaku',
         'Issue tracker': 'https://github.com/Kraots/jishaku/issues'
     },

@@ -20,9 +20,6 @@ jishaku
 a debugging and utility extension for disnake bots
 </sup>
 <br>
-<sup>
-    <a href="https://disnake-jishaku.readthedocs.io/">Read the documentation online.</a>
-</sup>
 </p>
 
 ***
