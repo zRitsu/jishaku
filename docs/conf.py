@@ -21,7 +21,7 @@
 
 from jishaku.meta import __version__
 
-project = 'jishaku'
+project = 'disnake-jishaku'
 copyright = '2021, Kraots'
 author = 'Kraots'
 
