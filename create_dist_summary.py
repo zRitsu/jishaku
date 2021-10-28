@@ -40,7 +40,7 @@ with open('dist_summary.jinja2', 'r', encoding='utf-8') as fp:
 with open('dist/DIST_SUMMARY.md', 'w', encoding='utf-8') as fp:
     output = template.render(
         env=os.getenv,
-        package=pkg_resources.get_distribution('jishaku'),
+        package=pkg_resources.get_distribution('disnake-jishaku'),
     )
 
     # Jinja loves obliterating trailing newlines

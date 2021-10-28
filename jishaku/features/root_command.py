@@ -64,7 +64,7 @@ class RootCommand(Feature):
         """
 
         summary = [
-            f"Jishaku v{package_version('jishaku')}, "
+            f"disnake-jishaku v{package_version('disnake-jishaku')}, "
             f"disnake `{package_version('disnake')}`, "
 
             f"`Python {sys.version}` on `{sys.platform}`".replace("\n", ""),

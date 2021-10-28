@@ -8,7 +8,7 @@ Welcome to jishaku's documentation!
 
 .. image:: /images/jishaku-keyart.png
 
-jishaku is a debugging and utility extension for discord.py bots.
+jishaku is a debugging and utility extension for disnake bots.
 
 The documentation is split up into categories. Please see the index below.
 
