@@ -27,7 +27,7 @@ from jishaku.features.baseclass import Feature
 from jishaku.models import copy_context_with
 from jishaku.paginators import PaginatorInterface, WrappedPaginator, use_file_check
 
-UserIDConverter = commands.IDConverter[disnake.User] if disnake.version_info >= (2, 0) else commands.IDConverter
+UserIDConverter = commands.IDConverter[disnake.User]
 
 
 class SlimUserConverter(UserIDConverter):
