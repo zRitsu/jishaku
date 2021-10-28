@@ -17,7 +17,7 @@ import time
 import traceback
 from urllib.parse import urlencode
 
-import disnake as discord
+import disnake
 from disnake.ext import commands
 
 from jishaku.features.baseclass import Feature
@@ -114,7 +114,7 @@ class ManagementFeature(Feature):
         """
 
         scopes = ('bot', 'applications.commands')
-        permissions = discord.Permissions()
+        permissions = disnake.Permissions()
 
         for perm in perms:
             if perm not in dict(permissions):

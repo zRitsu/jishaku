@@ -28,7 +28,7 @@ async def _repl_coroutine({{0}}):
     from importlib import import_module as {0}
 
     import aiohttp
-    import disnake as discord
+    import disnake
     from disnake.ext import commands
 
     try:

@@ -16,7 +16,7 @@ import sys
 import typing
 import os
 
-import disnake as discord
+import disnake
 from disnake.ext import commands
 
 from jishaku.features.baseclass import Feature
@@ -107,7 +107,7 @@ class RootCommand(Feature):
         cache_summary = f"{len(self.bot.guilds)} guild(s) and {len(self.bot.users)} user(s)"
 
         # Show shard settings to summary
-        if isinstance(self.bot, discord.AutoShardedClient):
+        if isinstance(self.bot, disnake.AutoShardedClient):
             if len(self.bot.shards) > 20:
                 summary.append(
                     f"This bot is automatically sharded ({len(self.bot.shards)} shards of {self.bot.shard_count})"
@@ -132,7 +132,7 @@ class RootCommand(Feature):
         else:
             message_cache = "Message cache is disabled"
 
-        if discord.version_info >= (1, 5, 0):
+        if disnake.version_info >= (1, 5, 0):
             presence_intent = f"presence intent is {'enabled' if self.bot.intents.presences else 'disabled'}"
             members_intent = f"members intent is {'enabled' if self.bot.intents.members else 'disabled'}"
 
@@ -149,11 +149,11 @@ class RootCommand(Feature):
                 try:
                     color = await commands.ColourConverter().convert(ctx, _color)
                 except commands.errors.BadColourArgument:
-                    color = discord.Colour.default()
+                    color = disnake.Colour.default()
             else:
-                color = discord.Colour.default()
+                color = disnake.Colour.default()
 
-            await ctx.send(embed=discord.Embed(
+            await ctx.send(embed=disnake.Embed(
                 description="\n".join(summary),
                 color=color)
                 .set_author(
@@ -235,7 +235,7 @@ class RootCommand(Feature):
         if index == -1:
             task = self.tasks.pop()
         else:
-            task = discord.utils.get(self.tasks, index=index)
+            task = disnake.utils.get(self.tasks, index=index)
             if task:
                 self.tasks.remove(task)
             else:

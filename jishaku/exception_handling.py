@@ -16,13 +16,13 @@ import subprocess
 import traceback
 import typing
 
-import disnake as discord
+import disnake
 from disnake.ext import commands
 
 from jishaku.flags import Flags
 
 
-async def send_traceback(destination: discord.abc.Messageable, verbosity: int, *exc_info):
+async def send_traceback(destination: disnake.abc.Messageable, verbosity: int, *exc_info):
     """
     Sends a traceback of an exception to a destination.
     Used when REPL fails for any reason.
@@ -66,18 +66,18 @@ async def do_after_sleep(delay: float, coro, *args, **kwargs):
     return await coro(*args, **kwargs)
 
 
-async def attempt_add_reaction(msg: discord.Message, reaction: typing.Union[str, discord.Emoji])\
-        -> typing.Optional[discord.Reaction]:
+async def attempt_add_reaction(msg: disnake.Message, reaction: typing.Union[str, disnake.Emoji])\
+        -> typing.Optional[disnake.Reaction]:
     """
     Try to add a reaction to a message, ignoring it if it fails for any reason.
 
     :param msg: The message to add the reaction to.
-    :param reaction: The reaction emoji, could be a string or `discord.Emoji`
-    :return: A `discord.Reaction` or None, depending on if it failed or not.
+    :param reaction: The reaction emoji, could be a string or `disnake.Emoji`
+    :return: A `disnake.Reaction` or None, depending on if it failed or not.
     """
     try:
         return await msg.add_reaction(reaction)
-    except discord.HTTPException:
+    except disnake.HTTPException:
         pass
 
 
@@ -87,7 +87,7 @@ class ReactionProcedureTimer:
     """
     __slots__ = ('message', 'loop', 'handle', 'raised')
 
-    def __init__(self, message: discord.Message, loop: typing.Optional[asyncio.BaseEventLoop] = None):
+    def __init__(self, message: disnake.Message, loop: typing.Optional[asyncio.BaseEventLoop] = None):
         self.message = message
         self.loop = loop or asyncio.get_event_loop()
         self.handle = None

@@ -19,7 +19,7 @@ import re
 import time
 import typing
 
-import disnake as discord
+import disnake
 from disnake.ext import commands
 
 from jishaku.exception_handling import ReplResponseReactor
@@ -27,7 +27,7 @@ from jishaku.features.baseclass import Feature
 from jishaku.models import copy_context_with
 from jishaku.paginators import PaginatorInterface, WrappedPaginator, use_file_check
 
-UserIDConverter = commands.IDConverter[discord.User] if discord.version_info >= (2, 0) else commands.IDConverter
+UserIDConverter = commands.IDConverter[disnake.User] if disnake.version_info >= (2, 0) else commands.IDConverter
 
 
 class SlimUserConverter(UserIDConverter):
@@ -35,17 +35,17 @@ class SlimUserConverter(UserIDConverter):
     Identical to the stock UserConverter, but does not perform plaintext name checks.
     """
 
-    async def convert(self, ctx: commands.Context, argument: str) -> discord.User:
+    async def convert(self, ctx: commands.Context, argument: str) -> disnake.User:
         """Converter method"""
         match = self._get_id_match(argument) or re.match(r'<@!?([0-9]{15,20})>$', argument)
 
         if match is not None:
             user_id = int(match.group(1))
-            result = ctx.bot.get_user(user_id) or discord.utils.get(ctx.message.mentions, id=user_id)
+            result = ctx.bot.get_user(user_id) or disnake.utils.get(ctx.message.mentions, id=user_id)
             if result is None:
                 try:
                     result = await ctx.bot.fetch_user(user_id)
-                except discord.HTTPException:
+                except disnake.HTTPException:
                     raise commands.UserNotFound(argument) from None
 
             return result
@@ -58,10 +58,7 @@ class InvocationFeature(Feature):
     Feature containing the command invocation related commands
     """
 
-    if hasattr(discord, 'Thread'):
-        OVERRIDE_SIGNATURE = typing.Union[SlimUserConverter, discord.TextChannel, discord.Thread]
-    else:
-        OVERRIDE_SIGNATURE = typing.Union[SlimUserConverter, discord.TextChannel]
+    OVERRIDE_SIGNATURE = typing.Union[SlimUserConverter, disnake.TextChannel, disnake.Thread]
 
     @Feature.Command(parent="jsk", name="override", aliases=["execute", "exec", "override!", "execute!", "exec!"])
     async def jsk_override(
@@ -80,7 +77,7 @@ class InvocationFeature(Feature):
         }
 
         for override in overrides:
-            if isinstance(override, discord.User):
+            if isinstance(override, disnake.User):
                 # This is a user
                 if ctx.guild:
                     # Try to upgrade to a Member instance
@@ -88,7 +85,7 @@ class InvocationFeature(Feature):
                     #  the command more compatible with chaining, e.g. `jsk in .. jsk su ..`
                     target_member = None
 
-                    with contextlib.suppress(discord.HTTPException):
+                    with contextlib.suppress(disnake.HTTPException):
                         target_member = ctx.guild.get_member(override.id) or await ctx.guild.fetch_member(override.id)
 
                     kwargs["author"] = target_member or override
@@ -174,7 +171,7 @@ class InvocationFeature(Feature):
         source_text = ''.join(source_lines)
 
         if use_file_check(ctx, len(source_text)):  # File "full content" preview limit
-            await ctx.send(file=discord.File(
+            await ctx.send(file=disnake.File(
                 filename=filename,
                 fp=io.BytesIO(source_text.encode('utf-8'))
             ))

@@ -11,7 +11,7 @@ Paginator-related tools and interfaces for Jishaku.
 
 """
 
-import disnake as discord
+import disnake
 from disnake.ext import commands
 
 from jishaku.flags import Flags
@@ -19,7 +19,7 @@ from jishaku.hljs import get_language, guess_file_traits
 from jishaku.shim.paginator_base import EmojiSettings
 
 # Version detection
-if discord.version_info >= (2, 0, 0):
+if disnake.version_info >= (2, 0, 0):
     from jishaku.shim.paginator_200 import PaginatorEmbedInterface, PaginatorInterface
 else:
     from jishaku.shim.paginator_170 import PaginatorEmbedInterface, PaginatorInterface

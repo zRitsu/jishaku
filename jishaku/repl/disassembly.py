@@ -21,7 +21,7 @@ from jishaku.repl.scope import Scope
 CORO_CODE = """
 import asyncio
 
-import disnake as discord
+import disnake
 from disnake.ext import commands
 from importlib import import_module as {0}
 

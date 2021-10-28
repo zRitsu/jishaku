@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-jishaku.paginators (shim for discord.py 2.0.0)
+jishaku.paginators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Paginator-related tools and interfaces for Jishaku.
@@ -13,7 +13,7 @@ Paginator-related tools and interfaces for Jishaku.
 
 import asyncio
 
-import disnake as discord
+import disnake
 from disnake import ui
 from disnake.ext import commands
 
@@ -30,7 +30,7 @@ class PaginatorInterface(ui.View):
 
     .. code:: python3
 
-        from discord.ext import commands
+        from disnake.ext import commands
 
         from jishaku.paginators import PaginatorInterface
 
@@ -143,7 +143,7 @@ class PaginatorInterface(ui.View):
         """
         A property that returns the kwargs forwarded to send/edit when updating the page.
 
-        As this must be compatible with both `discord.TextChannel.send` and `discord.Message.edit`,
+        As this must be compatible with both `disnake.TextChannel.send` and `disnake.Message.edit`,
         it should be a dict containing 'content', 'embed' or both.
         """
 
@@ -183,7 +183,7 @@ class PaginatorInterface(ui.View):
         # Unconditionally set send lock to try and guarantee page updates on unfocused pages
         self.send_lock.set()
 
-    async def send_to(self, destination: discord.abc.Messageable):
+    async def send_to(self, destination: disnake.abc.Messageable):
         """
         Sends a message to the given destination with this interface.
 
@@ -235,7 +235,7 @@ class PaginatorInterface(ui.View):
 
                 try:
                     await self.message.edit(**self.send_kwargs)
-                except discord.NotFound:
+                except disnake.NotFound:
                     # something terrible has happened
                     return
 
@@ -255,51 +255,51 @@ class PaginatorInterface(ui.View):
             else:
                 await self.message.edit(view=None)
 
-    async def interaction_check(self, interaction: discord.Interaction):
+    async def interaction_check(self, interaction: disnake.Interaction):
         """Check that determines whether this interaction should be honored"""
         return not self.owner or interaction.user.id == self.owner.id
 
-    @ui.button(label="1 \u200b \N{BLACK LEFT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR}", style=discord.ButtonStyle.secondary)
-    async def button_start(self, button: ui.Button, interaction: discord.Interaction):
+    @ui.button(label="1 \u200b \N{BLACK LEFT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR}", style=disnake.ButtonStyle.secondary)
+    async def button_start(self, button: ui.Button, interaction: disnake.Interaction):
         """Button to send interface to first page"""
 
         self._display_page = 0
         self.update_view()
         await interaction.response.edit_message(**self.send_kwargs)
 
-    @ui.button(label="\N{BLACK LEFT-POINTING TRIANGLE}", style=discord.ButtonStyle.secondary)
-    async def button_previous(self, button: ui.Button, interaction: discord.Interaction):
+    @ui.button(label="\N{BLACK LEFT-POINTING TRIANGLE}", style=disnake.ButtonStyle.secondary)
+    async def button_previous(self, button: ui.Button, interaction: disnake.Interaction):
         """Button to send interface to previous page"""
 
         self._display_page -= 1
         self.update_view()
         await interaction.response.edit_message(**self.send_kwargs)
 
-    @ui.button(label="1", style=discord.ButtonStyle.primary)
-    async def button_current(self, button: ui.Button, interaction: discord.Interaction):
+    @ui.button(label="1", style=disnake.ButtonStyle.primary)
+    async def button_current(self, button: ui.Button, interaction: disnake.Interaction):
         """Button to refresh the interface"""
 
         self.update_view()
         await interaction.response.edit_message(**self.send_kwargs)
 
-    @ui.button(label="\N{BLACK RIGHT-POINTING TRIANGLE}", style=discord.ButtonStyle.secondary)
-    async def button_next(self, button: ui.Button, interaction: discord.Interaction):
+    @ui.button(label="\N{BLACK RIGHT-POINTING TRIANGLE}", style=disnake.ButtonStyle.secondary)
+    async def button_next(self, button: ui.Button, interaction: disnake.Interaction):
         """Button to send interface to next page"""
 
         self._display_page += 1
         self.update_view()
         await interaction.response.edit_message(**self.send_kwargs)
 
-    @ui.button(label="\N{BLACK RIGHT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR} \u200b 1", style=discord.ButtonStyle.secondary)
-    async def button_last(self, button: ui.Button, interaction: discord.Interaction):
+    @ui.button(label="\N{BLACK RIGHT-POINTING DOUBLE TRIANGLE WITH VERTICAL BAR} \u200b 1", style=disnake.ButtonStyle.secondary)
+    async def button_last(self, button: ui.Button, interaction: disnake.Interaction):
         """Button to send interface to last page"""
 
         self._display_page = self.page_count - 1
         self.update_view()
         await interaction.response.edit_message(**self.send_kwargs)
 
-    @ui.button(label="\N{BLACK SQUARE FOR STOP} \u200b Close paginator", style=discord.ButtonStyle.danger)
-    async def button_close(self, button: ui.Button, interaction: discord.Interaction):
+    @ui.button(label="\N{BLACK SQUARE FOR STOP} \u200b Close paginator", style=disnake.ButtonStyle.danger)
+    async def button_close(self, button: ui.Button, interaction: disnake.Interaction):
         """Button to close the interface"""
 
         message = self.message
@@ -315,7 +315,7 @@ class PaginatorEmbedInterface(PaginatorInterface):
     """
 
     def __init__(self, *args, **kwargs):
-        self._embed = kwargs.pop('embed', None) or discord.Embed()
+        self._embed = kwargs.pop('embed', None) or disnake.Embed()
         super().__init__(*args, **kwargs)
 
     @property

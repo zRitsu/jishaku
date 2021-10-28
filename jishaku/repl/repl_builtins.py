@@ -12,7 +12,7 @@ Builtin functions and variables within Jishaku REPL contexts.
 """
 
 import aiohttp
-import disnake as discord
+import disnake
 from disnake.ext import commands
 
 
@@ -84,8 +84,8 @@ def get_var_dict_from_ctx(ctx: commands.Context, prefix: str = '_'):
         'bot': ctx.bot,
         'channel': ctx.channel,
         'ctx': ctx,
-        'find': discord.utils.find,
-        'get': discord.utils.get,
+        'find': disnake.utils.find,
+        'get': disnake.utils.get,
         'guild': ctx.guild,
         'http_get_bytes': http_get_bytes,
         'http_get_json': http_get_json,

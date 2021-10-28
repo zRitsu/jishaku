@@ -4,7 +4,7 @@
 jishaku.models
 ~~~~~~~~~~~~~~
 
-Functions for modifying or interfacing with discord.py models.
+Functions for modifying or interfacing with disnake models.
 
 :copyright: (c) 2021 Devon (Gorialis) R
 :license: MIT, see LICENSE for more details.
@@ -13,7 +13,7 @@ Functions for modifying or interfacing with discord.py models.
 
 import copy
 
-import disnake as discord
+import disnake
 from disnake.ext import commands
 
 
@@ -23,7 +23,7 @@ async def copy_context_with(ctx: commands.Context, *, author=None, channel=None,
     """
 
     # copy the message and update the attributes
-    alt_message: discord.Message = copy.copy(ctx.message)
+    alt_message: disnake.Message = copy.copy(ctx.message)
     alt_message._update(kwargs)
 
     if author is not None:
