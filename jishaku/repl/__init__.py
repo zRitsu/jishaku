@@ -11,7 +11,6 @@ Repl-related operations and tools for Jishaku.
 
 """
 
-# pylint: disable=wildcard-import
 from jishaku.repl.compilation import *  # noqa: F401
 from jishaku.repl.disassembly import disassemble  # noqa: F401
 from jishaku.repl.inspections import all_inspections  # noqa: F401

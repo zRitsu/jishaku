@@ -32,8 +32,6 @@ def add_inspection(name):
         Jishaku inspection decorator
         """
 
-        # pylint: disable=inconsistent-return-statements
-
         # create an encapsulated version of the inspection that swallows exceptions
         @functools.wraps(func)
         def encapsulated(*args, **kwargs):
@@ -69,10 +67,6 @@ def class_name(obj):
     if module:
         name = f'{module}.{name}'
     return name
-
-
-# pylint: disable=missing-docstring
-# pylint: disable=inconsistent-return-statements
 
 
 @add_inspection("Type")

@@ -62,7 +62,7 @@ class GuildFeature(Feature):
         self, ctx: commands.Context,
         channel: typing.Union[discord.TextChannel, discord.VoiceChannel],
         *targets: typing.Union[discord.Member, discord.Role]
-    ):  # pylint: disable=too-many-locals, too-many-branches, too-many-statements
+    ):
         """
         Calculates the source of granted or rejected permissions.
 
@@ -118,7 +118,6 @@ class GuildFeature(Feature):
                 # Now channel-level permissions
 
                 # Special case for @everyone
-                # pylint: disable=protected-access
                 try:
                     maybe_everyone = channel._overwrites[0]
                     if maybe_everyone.id == channel.guild.default_role.id:
@@ -128,7 +127,6 @@ class GuildFeature(Feature):
                         remaining_overwrites = channel._overwrites
                 except IndexError:
                     remaining_overwrites = channel._overwrites
-                # pylint: enable=protected-access
 
                 role_lookup = {r.id: r for r in roles}
 

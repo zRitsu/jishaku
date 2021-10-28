@@ -55,7 +55,7 @@ class RootCommand(Feature):
 
     @Feature.Command(name="jishaku", aliases=["jsk"],
                      invoke_without_command=True, ignore_extra=False)
-    async def jsk(self, ctx: commands.Context):  # pylint: disable=too-many-branches
+    async def jsk(self, ctx: commands.Context):
         """
         The Jishaku debug and diagnostic commands.
 
@@ -127,7 +127,6 @@ class RootCommand(Feature):
         else:
             summary.append(f"This bot is not sharded and can see {cache_summary}.")
 
-        # pylint: disable=protected-access
         if self.bot._connection.max_messages:
             message_cache = f"Message cache capped at {self.bot._connection.max_messages}"
         else:
@@ -143,8 +142,6 @@ class RootCommand(Feature):
 
             summary.append(f"{message_cache} and {guild_subscriptions}.")
 
-        # pylint: enable=protected-access
-
         _embed = os.getenv('JISHAKU_EMBEDDED_JSK', None)
         if _embed in ENABLED_SYMBOLS:
             _color = os.getenv('JISHAKU_EMBEDDED_JSK_COLOR', None) or os.getenv('JISHAKU_EMBEDDED_JSK_COLOUR', None)
@@ -155,13 +152,20 @@ class RootCommand(Feature):
                     color = discord.Colour.default()
             else:
                 color = discord.Colour.default()
-            
-            await ctx.send(embed=discord.Embed(description="\n".join(summary), color=color).set_author(name='Jishaku', url=ctx.bot.user.display_avatar.url, icon_url=ctx.bot.user.display_avatar.url).set_footer(text=f"Average websocket latency: {round(self.bot.latency * 1000, 2)}ms"))
+
+            await ctx.send(embed=discord.Embed(
+                description="\n".join(summary),
+                color=color)
+                .set_author(
+                    name='Jishaku',
+                    url=ctx.bot.user.display_avatar.url,
+                    icon_url=ctx.bot.user.display_avatar.url)
+                .set_footer(text=f"Average websocket latency: {round(self.bot.latency * 1000, 2)}ms")
+            )
         else:
             summary.append(f"Average websocket latency: {round(self.bot.latency * 1000, 2)}ms")
             await ctx.send("\n".join(summary))
 
-    # pylint: disable=no-member
     @Feature.Command(parent="jsk", name="hide")
     async def jsk_hide(self, ctx: commands.Context):
         """
@@ -185,7 +189,6 @@ class RootCommand(Feature):
 
         self.jsk.hidden = False
         await ctx.send("Jishaku is now visible.")
-    # pylint: enable=no-member
 
     @Feature.Command(parent="jsk", name="tasks")
     async def jsk_tasks(self, ctx: commands.Context):

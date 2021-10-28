@@ -33,7 +33,7 @@ class Feature(commands.Cog):
     Baseclass defining feature components of the jishaku cog.
     """
 
-    class Command:  # pylint: disable=too-few-public-methods
+    class Command:
         """
         An intermediary class for Feature commands.
         Instances of this class will be converted into commands.Command or commands.Group instances when inside a Feature.
@@ -56,7 +56,7 @@ class Feature(commands.Cog):
 
     load_time: datetime = datetime.utcnow().replace(tzinfo=timezone.utc)
 
-    def __init__(self, *args, **kwargs):  # pylint: disable=too-many-branches
+    def __init__(self, *args, **kwargs):
         self.bot: commands.Bot = kwargs.pop('bot')
         self.start_time: datetime = datetime.utcnow().replace(tzinfo=timezone.utc)
         self.tasks = collections.deque()
@@ -118,14 +118,12 @@ class Feature(commands.Cog):
             self.feature_commands[key] = target_cmd
             setattr(self, key, target_cmd)
 
-        # pylint: disable=protected-access, access-member-before-definition
         self.__cog_commands__ = (*self.__cog_commands__, *self.feature_commands.values())
-        # pylint: enable=protected-access, access-member-before-definition
 
         # Don't really think this does much, but init Cog anyway.
         super().__init__(*args, **kwargs)
 
-    async def cog_check(self, ctx: commands.Context):  # pylint: disable=invalid-overridden-method
+    async def cog_check(self, ctx: commands.Context):
         """
         Local check, makes all commands in resulting cogs owner-only
         """
@@ -149,7 +147,7 @@ class Feature(commands.Cog):
         self.task_count += 1
 
         try:
-            current_task = asyncio.current_task()  # pylint: disable=no-member
+            current_task = asyncio.current_task()
         except RuntimeError:
             # asyncio.current_task doesn't document that it can raise RuntimeError, but it does.
             # It propagates from asyncio.get_running_loop(), so it happens when there is no loop running.

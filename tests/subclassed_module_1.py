@@ -32,7 +32,7 @@ class ThirdPartyFeature(jishaku.Feature):
         return await ctx.send("The behavior of this command has been overridden with a third party feature.")
 
 
-class Magnet1(ThirdPartyFeature, *jishaku.OPTIONAL_FEATURES, *jishaku.STANDARD_FEATURES):  # pylint: disable=too-few-public-methods
+class Magnet1(ThirdPartyFeature, *jishaku.OPTIONAL_FEATURES, *jishaku.STANDARD_FEATURES):
     """
     The extended Jishaku cog
     """

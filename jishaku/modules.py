@@ -83,7 +83,7 @@ def package_version(package_name: str) -> typing.Optional[str]:
         return None
 
 
-class ExtensionConverter(commands.Converter):  # pylint: disable=too-few-public-methods
+class ExtensionConverter(commands.Converter):
     """
     A converter interface for resolve_extensions to match extensions from users.
     """

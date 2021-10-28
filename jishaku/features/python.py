@@ -77,7 +77,7 @@ class PythonFeature(Feature):
         self.retain = False
         return await ctx.send("Variable retention is OFF. Future REPL sessions will dispose their scope when done.")
 
-    async def jsk_python_result_handling(self, ctx: commands.Context, result):  # pylint: disable=too-many-return-statements
+    async def jsk_python_result_handling(self, ctx: commands.Context, result):
         """
         Determines what is done with a result when it comes out of jsk py.
         This allows you to override how this is done without having to rewrite the command itself.
@@ -154,7 +154,7 @@ class PythonFeature(Feature):
             scope.clear_intersection(arg_dict)
 
     @Feature.Command(parent="jsk", name="py_inspect", aliases=["pyi", "python_inspect", "pythoninspect"])
-    async def jsk_python_inspect(self, ctx: commands.Context, *, argument: codeblock_converter):  # pylint: disable=too-many-locals
+    async def jsk_python_inspect(self, ctx: commands.Context, *, argument: codeblock_converter):
         """
         Evaluation of Python code with inspect information.
         """

@@ -19,7 +19,7 @@ from disnake.ext import commands
 import jishaku
 
 
-class Magnet2(*jishaku.OPTIONAL_FEATURES, *jishaku.STANDARD_FEATURES):  # pylint: disable=too-few-public-methods
+class Magnet2(*jishaku.OPTIONAL_FEATURES, *jishaku.STANDARD_FEATURES):
     """
     The extended Jishaku cog
     """

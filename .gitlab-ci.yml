@@ -16,7 +16,6 @@ stages:
   script:
     - PYTHONPATH="$(pwd)" pytest -vs --cov=jishaku --cov-report term-missing:skip-covered
     - flake8 .
-    - pylint -j "$(nproc)" jishaku
     - isort . --check-only
     - python ./setup.py sdist bdist_egg bdist_wheel
     - rm -rf jishaku

@@ -31,7 +31,7 @@ class Flag:
     default: typing.Callable = None
     override: typing.Any = None
 
-    def resolve(self, flags):  # pylint: disable=too-many-return-statements
+    def resolve(self, flags):
         """
         Resolve this flag. Only for internal use.
         """
@@ -94,7 +94,7 @@ class FlagMeta(type):
             super().__setattr__(name, value)
 
 
-class Flags(metaclass=FlagMeta):  # pylint: disable=too-few-public-methods
+class Flags(metaclass=FlagMeta):
     """
     The flags for Jishaku.
 

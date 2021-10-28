@@ -86,7 +86,7 @@ def wrap_code(code: str, args: str = '') -> ast.Module:
     return mod
 
 
-class AsyncCodeExecutor:  # pylint: disable=too-few-public-methods
+class AsyncCodeExecutor:
     """
     Executes/evaluates Python code inside of an async function or generator.
 
@@ -123,7 +123,7 @@ class AsyncCodeExecutor:  # pylint: disable=too-few-public-methods
         self.loop = loop or asyncio.get_event_loop()
 
     def __aiter__(self):
-        exec(compile(self.code, '<repl>', 'exec'), self.scope.globals, self.scope.locals)  # pylint: disable=exec-used
+        exec(compile(self.code, '<repl>', 'exec'), self.scope.globals, self.scope.locals)
         func_def = self.scope.locals.get('_repl_coroutine') or self.scope.globals['_repl_coroutine']
 
         return self.traverse(func_def)
@@ -141,7 +141,7 @@ class AsyncCodeExecutor:  # pylint: disable=too-few-public-methods
                     send((yield result))
             else:
                 yield await func(*self.args)
-        except Exception:  # pylint: disable=broad-except
+        except Exception:
             # Falsely populate the linecache to make the REPL line appear in tracebacks
             linecache.cache['<repl>'] = (
                 len(self.source),  # Source length

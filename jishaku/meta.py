@@ -25,7 +25,6 @@ __all__ = (
     'version_info'
 )
 
-# pylint: disable=invalid-name
 VersionInfo = namedtuple('VersionInfo', 'major minor micro releaselevel serial')
 version_info = VersionInfo(major=2, minor=3, micro=0, releaselevel='final', serial=0)
 

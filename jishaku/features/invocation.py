@@ -30,7 +30,7 @@ from jishaku.paginators import PaginatorInterface, WrappedPaginator, use_file_ch
 UserIDConverter = commands.IDConverter[discord.User] if discord.version_info >= (2, 0) else commands.IDConverter
 
 
-class SlimUserConverter(UserIDConverter):  # pylint: disable=too-few-public-methods
+class SlimUserConverter(UserIDConverter):
     """
     Identical to the stock UserConverter, but does not perform plaintext name checks.
     """
@@ -59,7 +59,7 @@ class InvocationFeature(Feature):
     """
 
     if hasattr(discord, 'Thread'):
-        OVERRIDE_SIGNATURE = typing.Union[SlimUserConverter, discord.TextChannel, discord.Thread]  # pylint: disable=no-member
+        OVERRIDE_SIGNATURE = typing.Union[SlimUserConverter, discord.TextChannel, discord.Thread]
     else:
         OVERRIDE_SIGNATURE = typing.Union[SlimUserConverter, discord.TextChannel]
 

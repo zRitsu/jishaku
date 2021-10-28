@@ -33,7 +33,6 @@ async def send_traceback(destination: discord.abc.Messageable, verbosity: int, *
     :return: The last message sent
     """
 
-    # to make pylint stop moaning
     etype, value, trace = exc_info
 
     traceback_content = "".join(traceback.format_exception(etype, value, trace, verbosity)).replace("``", "`\u200b`")
@@ -82,7 +81,7 @@ async def attempt_add_reaction(msg: discord.Message, reaction: typing.Union[str,
         pass
 
 
-class ReactionProcedureTimer:  # pylint: disable=too-few-public-methods
+class ReactionProcedureTimer:
     """
     Class that reacts to a message based on what happens during its lifetime.
     """
@@ -121,7 +120,7 @@ class ReactionProcedureTimer:  # pylint: disable=too-few-public-methods
             await attempt_add_reaction(self.message, "\N{DOUBLE EXCLAMATION MARK}")
 
 
-class ReplResponseReactor(ReactionProcedureTimer):  # pylint: disable=too-few-public-methods
+class ReplResponseReactor(ReactionProcedureTimer):
     """
     Extension of the ReactionProcedureTimer that absorbs errors, sending tracebacks.
     """

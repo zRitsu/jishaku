@@ -84,12 +84,10 @@ def disassemble(code: str, scope: Scope = None, arg_dict: dict = None):
     scope = scope or Scope()
 
     wrapped = wrap_code(code, args=', '.join(arg_names))
-    exec(compile(wrapped, '<repl>', 'exec'), scope.globals, scope.locals)  # pylint: disable=exec-used
+    exec(compile(wrapped, '<repl>', 'exec'), scope.globals, scope.locals)
 
     func_def = scope.locals.get('_repl_coroutine') or scope.globals['_repl_coroutine']
 
-    # pylint is gonna really hate this part onwards
-    # pylint: disable=protected-access, invalid-name
     co = func_def.__code__
 
     for instruction in dis._get_instructions_bytes(
@@ -103,5 +101,3 @@ def disassemble(code: str, scope: Scope = None, arg_dict: dict = None):
         yield instruction._disassemble(
             4, False, 4
         )
-
-    # pylint: enable=protected-access, invalid-name

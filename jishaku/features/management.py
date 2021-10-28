@@ -54,7 +54,7 @@ class ManagementFeature(Feature):
 
             try:
                 method(extension)
-            except Exception as exc:  # pylint: disable=broad-except
+            except Exception as exc:
                 traceback_data = ''.join(traceback.format_exception(type(exc), exc, exc.__traceback__, 1))
 
                 paginator.add_line(
@@ -81,7 +81,7 @@ class ManagementFeature(Feature):
         for extension in itertools.chain(*extensions):
             try:
                 self.bot.unload_extension(extension)
-            except Exception as exc:  # pylint: disable=broad-except
+            except Exception as exc:
                 traceback_data = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__, 1))
 
                 paginator.add_line(
