@@ -87,25 +87,25 @@ You can also import the module to use the command development utilities.
                 <tr>
                     <td><code>_ctx</code></td>
                     <td>
-                        The <a href="https://disnake.readthedocs.io/en/latest/ext/commands/api.html#discord.ext.commands.Context">Context</a> that invoked the command.
+                        The <a href="https://disnake.readthedocs.io/en/latest/ext/commands/api.html#disnake.ext.commands.Context">Context</a> that invoked the command.
                     </td>
                 </tr>
                 <tr>
                     <td><code>_bot</code></td>
                     <td>
-                        The running <a href="https://disnake.readthedocs.io/en/latest/ext/commands/api.html#discord.ext.commands.Bot">Bot</a> instance.
+                        The running <a href="https://disnake.readthedocs.io/en/latest/ext/commands/api.html#disnake.ext.commands.Bot">Bot</a> instance.
                     </td>
                 </tr>
                 <tr>
                     <td><code>_author</code><br><code>_channel</code><br><code>_guild</code><br><code>_message</code><br><code>_msg</code></td>
                     <td>
-                        Shortcuts for attributes on <a href="https://disnake.readthedocs.io/en/latest/ext/commands/api.html#discord.ext.commands.Context"><code>_ctx</code></a>.
+                        Shortcuts for attributes on <a href="https://disnake.readthedocs.io/en/latest/ext/commands/api.html#disnake.ext.commands.Context"><code>_ctx</code></a>.
                     </td>
                 </tr>
                 <tr>
                     <td><code>_find</code><br><code>_get</code></td>
                     <td>
-                        Shortcuts for <a href="https://disnake.readthedocs.io/en/latest/api.html#utility-functions"><code>discord.utils</code></a> functions.
+                        Shortcuts for <a href="https://disnake.readthedocs.io/en/latest/api.html#utility-functions"><code>disnake.utils</code></a> functions.
                     </td>
                 </tr>
             </table>
