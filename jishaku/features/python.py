@@ -126,7 +126,7 @@ class PythonFeature(Feature):
             interface = PaginatorInterface(ctx.bot, paginator, owner=ctx.author)
             return await interface.send_to(ctx)
 
-        if len(result) <= 2000:
+        if isinstance(result, str) and len(result) <= 2000:
             if result.strip() == '':
                 result = "\u200b"
 
