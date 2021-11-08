@@ -12,6 +12,7 @@ The jishaku Python evaluation/execution commands.
 """
 
 import io
+import os
 
 import disnake
 from disnake.ext import commands
@@ -19,7 +20,7 @@ from disnake.ext import commands
 from jishaku.codeblocks import codeblock_converter
 from jishaku.exception_handling import ReplResponseReactor
 from jishaku.features.baseclass import Feature
-from jishaku.flags import Flags
+from jishaku.flags import Flags, DISABLED_SYMBOLS
 from jishaku.functools import AsyncSender
 from jishaku.paginators import PaginatorInterface, WrappedPaginator, use_file_check
 from jishaku.repl import AsyncCodeExecutor, Scope, all_inspections, disassemble, get_var_dict_from_ctx
@@ -84,48 +85,52 @@ class PythonFeature(Feature):
         What you return is what gets stored in the temporary _ variable.
         """
 
-        if isinstance(result, disnake.Message):
-            return await ctx.send(f"<Message <{result.jump_url}>>")
+        handle = os.getenv('JISHAKU_PY_RES', 'true')
 
-        if isinstance(result, disnake.File):
-            return await ctx.send(file=result)
+        if handle not in DISABLED_SYMBOLS:
+            if isinstance(result, disnake.Message):
+                return await ctx.send(f"<Message <{result.jump_url}>>")
 
-        if isinstance(result, disnake.Embed):
-            return await ctx.send(embed=result)
+            if isinstance(result, disnake.File):
+                return await ctx.send(file=result)
 
-        if isinstance(result, PaginatorInterface):
-            return await result.send_to(ctx)
+            if isinstance(result, disnake.Embed):
+                return await ctx.send(embed=result)
 
-        if not isinstance(result, str):
-            # repr all non-strings
-            result = repr(result)
+            if isinstance(result, PaginatorInterface):
+                return await result.send_to(ctx)
 
-        # Eventually the below handling should probably be put somewhere else
+            if not isinstance(result, str):
+                # repr all non-strings
+                result = repr(result)
+
+            # Eventually the below handling should probably be put somewhere else
+
+            if use_file_check(ctx, len(result)):  # File "full content" preview limit
+                # Discord's desktop and web client now supports an interactive file content
+                #  display for files encoded in UTF-8.
+                # Since this avoids escape issues and is more intuitive than pagination for
+                #  long results, it will now be prioritized over PaginatorInterface if the
+                #  resultant content is below the filesize threshold
+                return await ctx.send(file=disnake.File(
+                    filename="output.py",
+                    fp=io.BytesIO(result.encode('utf-8'))
+                ))
+
+            # inconsistency here, results get wrapped in codeblocks when they are too large
+            #  but don't if they're not. probably not that bad, but noting for later review
+            paginator = WrappedPaginator(prefix='```py', suffix='```', max_size=1985)
+
+            paginator.add_line(result)
+
+            interface = PaginatorInterface(ctx.bot, paginator, owner=ctx.author)
+            return await interface.send_to(ctx)
+
         if len(result) <= 2000:
             if result.strip() == '':
                 result = "\u200b"
 
             return await ctx.send(result.replace(self.bot.http.token, "[token omitted]"))
-
-        if use_file_check(ctx, len(result)):  # File "full content" preview limit
-            # Discord's desktop and web client now supports an interactive file content
-            #  display for files encoded in UTF-8.
-            # Since this avoids escape issues and is more intuitive than pagination for
-            #  long results, it will now be prioritized over PaginatorInterface if the
-            #  resultant content is below the filesize threshold
-            return await ctx.send(file=disnake.File(
-                filename="output.py",
-                fp=io.BytesIO(result.encode('utf-8'))
-            ))
-
-        # inconsistency here, results get wrapped in codeblocks when they are too large
-        #  but don't if they're not. probably not that bad, but noting for later review
-        paginator = WrappedPaginator(prefix='```py', suffix='```', max_size=1985)
-
-        paginator.add_line(result)
-
-        interface = PaginatorInterface(ctx.bot, paginator, owner=ctx.author)
-        return await interface.send_to(ctx)
 
     @Feature.Command(parent="jsk", name="py", aliases=["python"])
     async def jsk_python(self, ctx: commands.Context, *, argument: codeblock_converter):

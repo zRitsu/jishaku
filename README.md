@@ -46,6 +46,7 @@ You can also import the module to use the command development utilities.
 - [Command reference](#command-reference)
 - [Installing development versions](#installing-development-versions)
 - [Embedded JSK:](#embedded-jsk)
+- [Disabling the automatic result handle from "jsk py"](#disabling-the-automatic-result-handle-from-jsk-py)
 - [Acknowledgements](#acknowledgements)
 
 ## Command reference
@@ -253,7 +254,7 @@ You **must** have installed jishaku with one of the commands above before doing 
 import os
 
 # Setting the jsk command to return an embed
-os.environ['JISHAKU_EMBEDDED_JSK'] = '1'
+os.environ['JISHAKU_EMBEDDED_JSK'] = 'true'
 
 # Setting the embed's colour
 # Acceptable formats:
@@ -264,6 +265,12 @@ os.environ['JISHAKU_EMBEDDED_JSK'] = '1'
     # Any of the classmethod in disnake.Colour
 os.environ['JISHAKU_EMBEDDED_JSK_COLOUR'] = 0x2F3136
 ```
+
+
+## Disabling the automatic result handle from "jsk py"
+
+Aditionally, you can also remove the result handle from the `jsk py`, what that means is that it will only send the message of your result if you are returning something, it will not send embeds, files, or anything else automatically like it did before. This option is enabled by default, you can enable it by adding `os.environ['JISHAKU_PY_RES'] = 'false'` in your code.
+
 
 ## Acknowledgements
 
