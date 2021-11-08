@@ -104,7 +104,12 @@ class PythonFeature(Feature):
                 # repr all non-strings
                 result = repr(result)
 
-            # Eventually the below handling should probably be put somewhere else
+        if isinstance(result, str):
+            if len(result) <= 2000:
+                if result.strip() == '':
+                    result = "\u200b"
+
+                return await ctx.send(result.replace(self.bot.http.token, "[token omitted]"))
 
             if use_file_check(ctx, len(result)):  # File "full content" preview limit
                 # Discord's desktop and web client now supports an interactive file content
@@ -125,12 +130,6 @@ class PythonFeature(Feature):
 
             interface = PaginatorInterface(ctx.bot, paginator, owner=ctx.author)
             return await interface.send_to(ctx)
-
-        if isinstance(result, str) and len(result) <= 2000:
-            if result.strip() == '':
-                result = "\u200b"
-
-            return await ctx.send(result.replace(self.bot.http.token, "[token omitted]"))
 
     @Feature.Command(parent="jsk", name="py", aliases=["python"])
     async def jsk_python(self, ctx: commands.Context, *, argument: codeblock_converter):
