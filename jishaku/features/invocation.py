@@ -154,8 +154,7 @@ class InvocationFeature(Feature):
         self,
         name: str
     ) -> typing.Optional[typing.Union[InvokableSlashCommand, SubCommandGroup, SubCommand]]:
-        """Get a slash command or a slash group command or a slash sub command from the internal list
-        of commands.
+        """Works like ``Bot.get_command``, but for slashes.
 
         Parameters
         -----------
