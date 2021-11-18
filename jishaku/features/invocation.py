@@ -21,6 +21,10 @@ import typing
 
 import disnake
 from disnake.ext import commands
+from disnake.ext.commands.slash_core import (
+    SubCommandGroup,
+    SubCommand
+)
 
 from jishaku.exception_handling import ReplResponseReactor
 from jishaku.features.baseclass import Feature
@@ -145,6 +149,70 @@ class InvocationFeature(Feature):
         end = time.perf_counter()
         return await ctx.send(f"Command `{alt_ctx.command.qualified_name}` finished in {end - start:.3f}s.")
 
+    @staticmethod
+    def get_slash_sub_command_group(
+        ctx: commands.Context,
+        name: str,
+        parent: str
+    ) -> typing.Optional[SubCommandGroup]:
+        """Get a :class:`.SubCommandGroup` from the given parent.
+        Parameters
+        ----------
+            name: :class:`str`
+                The name of the sub command group.
+            parent: :class:`str`
+                The top-level slash command of this group.
+        Returns
+        -------
+            Optional[:class:`SubCommandGroup`]
+                The slash sub command group that was requested. If not found, returns ``None``.
+        """
+
+        slash = ctx.bot.get_slash_command(parent)
+        if slash:
+            group = slash.children.get(name)
+            if isinstance(group, SubCommandGroup):
+                return group
+
+        return None
+
+    @staticmethod
+    def get_slash_sub_command(
+        ctx,
+        name: str,
+        parent: str,
+        parent_group: str = None
+    ) -> typing.Optional[SubCommand]:
+        """Get a :class:`.SubCommand` from the given parent.
+        Parameters
+        ----------
+            name: :class:`str`
+                The name of the sub command.
+            parent: :class:`str`
+                The top-level slash command of this sub command.
+            parent_group: :class:`str`
+                The ``.SubCommandGroup`` this sub command is part of.
+        Returns
+        -------
+            Optional[:class:`SubCommand`]
+                The slash sub command that was requested. If not found, returns ``None``.
+        """
+
+        slash = ctx.bot.get_slash_command(parent)
+        if slash:
+            if parent_group:
+                group = slash.children.get(parent_group)
+                if isinstance(group, SubCommandGroup):
+                    sub_command = group.children.get(name)
+                    return sub_command
+                return None
+
+            sub_command = slash.children.get(name)
+            if isinstance(sub_command, SubCommand):
+                return sub_command
+
+        return None
+
     @Feature.Command(parent="jsk", name="source", aliases=["src"])
     async def jsk_source(self, ctx: commands.Context, *, command_name: str):
         """
@@ -152,6 +220,18 @@ class InvocationFeature(Feature):
         """
 
         command = self.bot.get_command(command_name)
+        if not command:
+            cmd = command_name.split()
+            if len(cmd) == 1:
+                command = self.bot.get_slash_command(cmd[0])
+            elif len(cmd) == 2:
+                parent, name = cmd
+                command = self.get_slash_sub_command_group(ctx, name, parent)
+                if command is None:
+                    command = self.get_slash_sub_command(ctx, name, parent)
+            elif len(cmd) == 3:
+                parent, group, name = cmd
+                command = self.get_slash_sub_command(ctx, name, parent, group)
         if not command:
             return await ctx.send(f"Couldn't find command `{command_name}`.")
 
