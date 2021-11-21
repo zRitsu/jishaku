@@ -41,7 +41,7 @@ You can also import the module to use the command development utilities.
 - [Index](#index)
 - [Command reference](#command-reference)
 - [Installing development versions](#installing-development-versions)
-- [Embedded JSK:](#embedded-jsk)
+- [Embedded JSK](#embedded-jsk)
 - [Disabling the automatic result handle from "jsk py"](#disabling-the-automatic-result-handle-from-jsk-py)
 - [Acknowledgements](#acknowledgements)
 
@@ -241,7 +241,7 @@ If you run into such a problem, you can force jishaku to be reinstalled like thi
 
 You **must** have installed jishaku with one of the commands above before doing this else you will probably end up with a broken installation.
 
-## Embedded JSK:
+## Embedded JSK
 ```py
 import os
 
