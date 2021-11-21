@@ -232,10 +232,6 @@ If you'd like to test the latest versions of disnake-jishaku, you can do so by d
 > ```bash
 > pip install -U "jishaku @ git+https://github.com/Kraots/jishaku@master"
 > ```
-> From GitLab:
-> ```bash
-> pip install -U "jishaku @ git+https://gitlab.com/Kraots/jishaku@master"
-> ```
 
 Please note that the new 2020 dependency resolver now no longer discounts git package sources from reinstall prevention,
 which means that if you are installing the jishaku development version multiple times within the same version target you may run into pip just discarding the update.
