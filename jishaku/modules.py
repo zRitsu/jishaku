@@ -10,11 +10,10 @@ Functions for managing and searching modules.
 :license: MIT, see LICENSE for more details.
 
 """
-
+import importlib.metadata
 import pathlib
 import typing
 
-import pkg_resources
 from braceexpand import UnbalancedBracesError, braceexpand
 from disnake.ext import commands
 
@@ -78,8 +77,8 @@ def package_version(package_name: str) -> typing.Optional[str]:
     """
 
     try:
-        return pkg_resources.get_distribution(package_name).version
-    except (pkg_resources.DistributionNotFound, AttributeError):
+        return importlib.metadata.version(package_name)
+    except importlib.metadata.PackageNotFoundError:
         return None
 
 

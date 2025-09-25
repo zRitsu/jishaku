@@ -10,10 +10,8 @@ Meta information about jishaku.
 :license: MIT, see LICENSE for more details.
 
 """
-
+import importlib.metadata
 from collections import namedtuple
-
-import pkg_resources
 
 __all__ = (
     '__author__',
@@ -27,7 +25,7 @@ __all__ = (
 
 # pylint: disable=invalid-name
 VersionInfo = namedtuple('VersionInfo', 'major minor micro releaselevel serial')
-version_info = VersionInfo(major=2, minor=6, micro=5, releaselevel='final', serial=0)
+version_info = VersionInfo(major=2, minor=6, micro=6, releaselevel='final', serial=0)
 
 __author__ = 'Gorialis, Kraots'
 __copyright__ = 'Copyright 2021 Devon (Gorialis) R'
@@ -37,4 +35,7 @@ __title__ = 'jishaku'
 __version__ = '.'.join(map(str, (version_info.major, version_info.minor, version_info.micro)))
 
 # This ensures that when jishaku is reloaded, pkg_resources requeries it to provide correct version info
-pkg_resources.working_set.by_key.pop('jishaku', None)
+try:
+    __version__ = importlib.metadata.version('jishaku')
+except importlib.metadata.PackageNotFoundError:
+    pass
